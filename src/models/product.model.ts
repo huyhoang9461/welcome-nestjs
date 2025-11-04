@@ -1,7 +1,6 @@
 import { Exclude } from "class-transformer";
 
 export class ProductModel {
-    @Exclude()
     id?: number;
 
     categoryId?: number;

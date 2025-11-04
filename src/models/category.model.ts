@@ -1,7 +1,7 @@
 export class CategoryModel {
-    id: number;
-    categoryName: string;
-    description: string;
+    id?: number;
+    categoryName?: string;
+    description?: string;
 
     constructor({ id, categoryName, description }) {
         if (id !== null) this.id = id;
