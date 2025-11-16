@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpMessage, HttpStatus } from 'src/global/globalEnum';
@@ -8,9 +8,8 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Product')
 @Controller('products')
-@UseInterceptors(ClassSerializerInterceptor)
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Get()
   async getProducts(): Promise<ResponseData<ProductModel[]>> {
@@ -47,15 +46,15 @@ export class ProductController {
   }
 
   @Get('/:id')
-  async getDetailProduct(@Param('id') id: number): Promise<ResponseData<ProductModel | undefined>> {
+  async getDetailProduct(@Param('id') id: number): Promise<ResponseData<ProductModel | null>> {
     try {
-      return new ResponseData<ProductModel | undefined>(
+      return new ResponseData<ProductModel | null>(
         await this.productService.getDetailProduct(id),
         HttpStatus.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<ProductModel | undefined>(
+      return new ResponseData<ProductModel | null>(
         await this.productService.getDetailProduct(id),
         HttpStatus.ERROR,
         HttpMessage.ERROR,
@@ -64,15 +63,15 @@ export class ProductController {
   }
 
   @Put('/:id')
-  async updateProduct(@Param('id') id: number, @Body() productDto: ProductDto): Promise<ResponseData<ProductModel>> {
+  async updateProduct(@Param('id') id: number, @Body() productDto: ProductDto): Promise<ResponseData<ProductModel | null>> {
     try {
-      return new ResponseData<ProductModel>(
+      return new ResponseData<ProductModel | null>(
         await this.productService.updateProduct(productDto, id),
         HttpStatus.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<ProductModel>(
+      return new ResponseData<ProductModel | null>(
         await this.productService.updateProduct(productDto, id),
         HttpStatus.ERROR,
         HttpMessage.ERROR,
