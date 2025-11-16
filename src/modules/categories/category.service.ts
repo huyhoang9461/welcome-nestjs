@@ -7,7 +7,7 @@ import { CategoryModel } from "src/models/category.model";
 export class CategoryService {
     constructor(
         @Inject('ICategoryRepository')
-        private readonly categoryRespository: ICategoryRepository
+        private readonly categoryRespository: ICategoryRepository,
     ) {}
 
     async getAll(): Promise<CategoryModel[]> {

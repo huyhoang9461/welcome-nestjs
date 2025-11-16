@@ -13,6 +13,6 @@ export class ProductEntity {
     price: number;
 
     @ManyToOne(() => CategoryEntity, (category) => category.products)
-    @JoinColumn({ name: 'categoryId' })
+    @JoinColumn({ name: 'categoryId', referencedColumnName: 'id' })
     category: CategoryEntity;
 }

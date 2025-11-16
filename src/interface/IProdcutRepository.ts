@@ -1,4 +1,4 @@
 import { ProductModel } from "src/models/product.model";
-import { AbstractRepository } from "./AbstractRepository";
+import { InterfaceRepository } from "./InterfaceRepository";
 
-export interface IProductRepository extends AbstractRepository<ProductModel> {}
+export interface IProductRepository extends InterfaceRepository<ProductModel> { }
