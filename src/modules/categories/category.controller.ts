@@ -99,14 +99,14 @@ export class CategoryController {
     @Get("/relations/:id")
     async findRelationsById(@Param('id') id: number, @Res() res: Response){
         try {
-            return new ResponseData<boolean>(
-                await this.categoryService.delete(id),
+            return new ResponseData<CategoryModel | null>(
+                await this.categoryService.findRelationsById(id),
                 HttpStatus.SUCCESS,
                 HttpMessage.SUCCESS,
             );
         } catch (error) {
-            return new ResponseData<boolean>(
-                await this.categoryService.delete(id),
+            return new ResponseData<null>(
+                null,
                 HttpStatus.ERROR,
                 HttpMessage.ERROR,
             );

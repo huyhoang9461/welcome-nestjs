@@ -38,4 +38,8 @@ export class CategoryRepository implements ICategoryRepository {
         const result = await this.categoryRespository.delete(id);
         return result.affected != null && result.affected > 0;
     }
+
+    async findRelationsById(id: number): Promise<CategoryModel | null> {
+        return await this.categoryRespository.findOne({where: { id }})
+    }
 }

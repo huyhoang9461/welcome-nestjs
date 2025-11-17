@@ -30,4 +30,8 @@ export class CategoryService {
     async delete(id: number): Promise<boolean> {
         return await this.categoryRespository.delete(id);
     }
+
+    async findRelationsById(id: number): Promise<CategoryModel | null> {   
+        return await this.categoryRespository.findRelationsById(id);
+    }
 }
