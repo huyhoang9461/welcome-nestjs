@@ -39,10 +39,10 @@ export class AuthRepository implements IAuthRepository {
         const { username, password } = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(password, salt);
-        return this.repository.save({
+        const user = await this.repository.save({
             username,
             password: hash,
-            permission: Role.ADMIN,
         });
+        return new AuthResponseDto(user);
     }
 }

@@ -12,6 +12,9 @@ export class UserEntity extends BaseEntity{
     @Column()
     password: string;
 
-    @Column()
+    @Column({ nullable: true})
+    email: string;
+
+    @Column({ default: Role.USER})
     permission: string;
 }

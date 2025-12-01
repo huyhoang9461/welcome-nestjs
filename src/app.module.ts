@@ -26,7 +26,8 @@ import { AuthGuard } from './modules/auth/auth.guard';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<'postgres' | 'mysql' | 'mssql'>('DB_TYPE') as 'postgres',
+        //Can use Joi to validate .env file
+        type: configService.get<'postgres'>('DB_TYPE'),
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
