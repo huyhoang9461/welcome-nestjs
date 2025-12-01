@@ -1,43 +1,54 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthenticationDto } from 'src/dto/auth.dto';
+import type { Response } from 'express';
+import { AuthenticationDto, AuthPayloadDto, AuthPermission, AuthResponseDto } from 'src/dto/auth.dto';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpMessage, HttpStatus } from 'src/global/globalEnum';
-import { User } from 'src/models/user.model';
+import { ResponseType } from 'src/global/globalType';
+import { AuthService } from './auth.service';
+import { Public } from 'src/constant/decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  @Post('login')
-  async login(@Body() authDto: AuthenticationDto): Promise<ResponseData<User>> {
+  constructor(protected readonly authService: AuthService) {}
+
+  @Public()
+  @Post('/sign-in')
+  async signIn(@Body() authDto: AuthPayloadDto, @Res() res: Response): Promise<ResponseType<AuthPermission | boolean>> {
     try {
-      return new ResponseData<User[]>(
-        await null,
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
+      const isAuth = await this.authService.signIn(authDto);
+      if (!isAuth) {
+        return res.json(
+          new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR),
+        )
+      }
+      return res.json(
+        new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS),
+      )
     } catch (error) {
-      return new ResponseData<User[]>(
-        null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+      return res.json(
+        new ResponseData(false, HttpStatus.ERROR, HttpMessage.ERROR),
       );
     }
   }
 
-  @Post('/register')
-  async register(@Body() authDto: AuthenticationDto): Promise<ResponseData<User> | null> {
+  @Public()
+  @Post('/sign-up')
+  async signUp(@Body() authDto: AuthPayloadDto, @Res() res: Response): Promise<ResponseType<AuthResponseDto>> {
     try {
-      return new ResponseData<User[] | null>(
-        null,
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
+      const isAuth = await this.authService.signUp(authDto);
+      if (!isAuth) {
+        return res.json(
+          new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR),
+        )
+      }
+      return res.json(
+        new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS),
+      )
     } catch (error) {
-      return new ResponseData<User[]>(
-        null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+      return res.json(
+        new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
       );
     }
   }

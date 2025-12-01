@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/global/globalEnum";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('user')
-export class UserEntity{
+export class UserEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,8 +13,5 @@ export class UserEntity{
     password: string;
 
     @Column()
-    email: string;
-
-    @Column()
-    role: string;
+    permission: string;
 }

@@ -1,29 +1,9 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsNotEmpty, MinLength } from 'class-validator'
-import { RoleEnum } from 'src/enum/user-role';
+import { Expose } from 'class-transformer';
 
-export class UserDto {
-    id?: number;
-
-    @ApiProperty()
-    @IsNotEmpty({message: 'Username must be not empty'})
-    @MinLength(6, {message: 'Username must be at least 6 characters long'})
+export class UserResponseDto {
+    id: number;
     username: string;
-
-    @ApiProperty()
-    @IsNotEmpty({message: 'Password must be not empty'})
-    @MinLength(8, {message: 'Password must be at least 8 characters long'})
+    @Expose()
     password: string;
-
-    @ApiProperty()
-    @IsNotEmpty({message: 'Email must be not empty'})
-    @IsEmail({}, {message: 'Email is not valid'})
-    email: string;
-
-    @ApiProperty()
-    @IsNotEmpty({message: 'Role must be not empty'})
-    @IsEnum(RoleEnum, {message: 'Role must be either ADMIN or USER'})
-    role: RoleEnum;
+    permission: string;
 }
-
-export class UpdateUserDto extends PartialType(UserDto) {}
