@@ -6,6 +6,7 @@ import { HttpMessage, HttpStatus } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
+import { Public } from "src/constant/decorator";
 
 @ApiTags('User')
 @Controller('user')
@@ -14,6 +15,7 @@ export class UserController {
         protected readonly userService: UserService,
     ) {}
 
+    @Public()
     @Get()
     async getUsers(@Res() res: Response): Promise<ResponseType<UserResponseDto[] | null>> {
         try{
